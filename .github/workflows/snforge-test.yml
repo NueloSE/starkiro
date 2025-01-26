@@ -1,6 +1,11 @@
 name: snforge Contract Tests
 
 on:
+  push:
+    branches: ["main"]
+    paths:
+      - "src/**"
+      - "tests/**"
   pull_request:
     branches: ["main"]
     paths:
