@@ -1,4 +1,4 @@
-name: snforge Contract Tests
+name: snforge Contract Test
 
 on:
   push:
