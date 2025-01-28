@@ -14,7 +14,8 @@ curl -s https://raw.githubusercontent.com/KaizeNodeLabs/starkiro/main/cli/instal
 
 ### Specific versions
 ```bash
-curl -s https://raw.githubusercontent.com/KaizeNodeLabs/starkiro/main/cli/install_dev_suit.sh --scarb <version> --snfoundry <version>| bash
+curl -s https://raw.githubusercontent.com/KaizeNodeLabs/starkiro/main/cli/install_dev_suit.sh -o install_dev_suit.sh
+bash install_dev_suit.sh --scarb <version> --snfoundry <version>
 ```
 
 
