@@ -6,9 +6,17 @@ Welcome to **Starkiro CLI**, your one-stop solution to quickly set up your Stark
 
 Run the following command to install `asdf` and all the essential tools:
 
+
+### Latest
 ```bash
 curl -s https://raw.githubusercontent.com/KaizeNodeLabs/starkiro/main/cli/install_dev_suit.sh | bash
 ```
+
+### Specific versions
+```bash
+curl -s https://raw.githubusercontent.com/KaizeNodeLabs/starkiro/main/cli/install_dev_suit.sh --scarb <version> --snfoundry <version>| bash
+```
+
 
 ## What This Script Does 🛠️
 

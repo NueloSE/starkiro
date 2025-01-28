@@ -10,7 +10,36 @@ if [[ "$OS" != "Darwin" && "$OS" != "Linux" ]]; then
   exit 1
 fi
 
-# Install asdf
+# Usage function
+usage() {
+  echo "Usage: $0 [--scarb <version>] [--snfoundry <version>]"
+  echo "  --scarb: Specify the version of scarb to install (default: latest)"
+  echo "  --snfoundry: Specify the version of starknet-foundry to install (default: latest)"
+  exit 1
+}
+
+# Default versions
+SCARB_VERSION="latest"
+SNFOUNDRY_VERSION="latest"
+
+# Parse arguments
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    --scarb)
+      SCARB_VERSION="$2"
+      shift 2
+      ;;
+    --snfoundry)
+      SNFOUNDRY_VERSION="$2"
+      shift 2
+      ;;
+    *)
+      usage
+      ;;
+  esac
+done
+
+# Install dependencies
 install_asdf() {
   if ! command -v asdf &>/dev/null; then
     echo "Installing asdf..."
@@ -21,7 +50,6 @@ install_asdf() {
       echo -e '\n. $HOME/.asdf/asdf.sh' >>~/.zshrc
       echo -e '\n. $HOME/.asdf/completions/asdf.bash' >>~/.zshrc
     fi
-    # Reload shell configuration
     source ~/.bashrc || source ~/.zshrc
     echo "asdf installed successfully!"
   else
@@ -29,34 +57,26 @@ install_asdf() {
   fi
 }
 
-# Install asdf plugins and tools
-install_asdf_tools() {
-  echo "Installing asdf plugins and tools..."
-  # Add plugins if they don't exist
-  asdf plugin-add scarb https://github.com/software-mansion/asdf-scarb.git || true
-  asdf plugin-add starknet-foundry https://github.com/kkallday/asdf-starknet-foundry.git || true
+install_plugins_and_tools() {
+  # Add asdf plugins
+  asdf plugin-add scarb || true
+  asdf plugin-add starknet-foundry || true
 
-  # Install the latest versions of scarb and starknet-foundry
-  asdf install scarb latest
-  asdf install starknet-foundry latest
+  # Install specified versions
+  echo "Installing scarb version: $SCARB_VERSION"
+  asdf install scarb "$SCARB_VERSION"
+  asdf global scarb "$SCARB_VERSION"
 
-  # Set them as global
-  asdf global scarb latest
-  asdf global starknet-foundry latest
+  echo "Installing starknet-foundry version: $SNFOUNDRY_VERSION"
+  asdf install starknet-foundry "$SNFOUNDRY_VERSION"
+  asdf global starknet-foundry "$SNFOUNDRY_VERSION"
 }
 
-# Restart shell session
-restart_shell_session() {
-  echo "Restarting shell session..."
-  exec $SHELL
-}
-
-
-# Main function
 main() {
   install_asdf
-  install_asdf_tools
-  restart_shell_session
+  install_plugins_and_tools
+
+  echo "All tools have been installed successfully!"
 }
 
 main
